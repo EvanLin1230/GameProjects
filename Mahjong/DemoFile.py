@@ -1,7 +1,7 @@
 # 下面那串可以讓我們成功輸出中文字
 # coding: utf-8
 import random
-from Class.ClassPlayer import ClassPlayer
+from Class.ClassAllPlayer import ClassAllPlayer
 # 全域變數
 AllMahjongs = ["東","東","東","東","西","西","西","西","南","南","南","南","北","北","北","北","中","中","中","中","發","發","發","發","白","白","白","白","一筒","一筒","一筒","一筒","二筒","二筒","二筒","二筒","三筒","三筒","三筒","三筒","四筒","四筒","四筒","四筒","五筒","五筒","五筒","五筒","六筒","六筒","六筒","六筒","七筒","七筒","七筒","七筒","八筒","八筒","八筒","八筒","九筒","九筒","九筒","九筒","一萬","一萬","一萬","一萬","二萬","二萬","二萬","二萬","三萬","三萬","三萬","三萬","四萬","四萬","四萬","四萬","五萬","五萬","五萬","五萬","六萬","六萬","六萬","六萬","七萬","七萬","七萬","七萬","八萬","八萬","八萬","八萬","九萬","九萬","九萬","九萬","一條","一條","一條","一條","二條","二條","二條","二條","三條","三條","三條","三條","四條","四條","四條","四條","五條","五條","五條","五條","六條","六條","六條","六條","七條","七條","七條","七條","八條","八條","八條","八條","九條","九條","九條","九條","春","夏","秋","冬","梅","蘭","竹","菊"]
 FlowerMahjongs = ["春","夏","秋","冬","梅","蘭","竹","菊"]
@@ -96,16 +96,20 @@ def ReplaceFlowerCards(MahjongsList, LastMahjongs):
         return LastMahjongs, MahjongsList
 
 def initGame2():
-    random.shuffle(AllMahjongs)
-    Banker = ClassPlayer(True,AllMahjongs)
-    player1 = ClassPlayer(False,Banker.temp)
-    player2 = ClassPlayer(False,player1.temp)
-    player3 = ClassPlayer(False,player2.temp)
-    print(Banker.Cards)
-    print(player1.Cards)
-    print(player2.Cards)
-    print(player3.Cards)
+    # 先設定一開始以玩家開始算
+    num = ThrowDice()
+    print("莊家骰到的點數為：{}" .format(num))
+    player = ["Evan","Sammi","Amy","Dex"]
+    print("換{}做莊家".format(player[num%4]))
 
-initGame()
+    #AllPlayer = ClassAllPlayer()
+    #print(AllPlayer.Banker.cards)
+
+def ThrowDice():
+    ''' 取得 0-3 的隨機整數 '''
+    num = random.randint(1,6) + random.randint(1,6) + random.randint(1,6)
+    return num
+
+initGame2()
 
 #initGame2()
