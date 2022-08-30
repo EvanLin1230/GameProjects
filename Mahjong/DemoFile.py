@@ -96,6 +96,14 @@ def ReplaceFlowerCards(MahjongsList, LastMahjongs):
         return LastMahjongs, MahjongsList
 
 def initGame2():
+    # 初始化玩家清單
+    InputListPlayer = InputPlayersName()
+    # 決定由誰當今天的第一個玩家，也就是東風東局
+    DiceResult = ThrowDice()
+    num = DiceResult%4
+    ListPlayer = DefSeqPlayerlist(InputListPlayer,num)
+    print("第一個玩家為：{}".format(ListPlayer[0]))
+
     # 先設定一開始以玩家開始算
     num = ThrowDice()
     print("莊家骰到的點數為：{}" .format(num))
@@ -109,6 +117,25 @@ def ThrowDice():
     ''' 取得 0-3 的隨機整數 '''
     num = random.randint(1,6) + random.randint(1,6) + random.randint(1,6)
     return num
+
+def InputPlayersName():
+    ''' 回傳List '''
+    num = 4
+    playerList = []
+    print("請依序輸入四位玩家姓名：")
+    for i in range(num):
+        playerList.append(input("玩家{}：".format(i+1)))
+    return playerList
+
+def DefSeqPlayerlist(playerList, num):
+    ''' 在決定東風東局的玩家後，重新定義正確順序的List； 回傳List '''
+    if num == 1:
+        return playerList
+    tempPlayerlist = playerList[num-1:]
+    playerList = playerList[0:num-1]
+    for x in playerList:
+        tempPlayerlist.append(x)
+    return tempPlayerlist
 
 initGame2()
 

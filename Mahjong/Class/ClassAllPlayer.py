@@ -4,21 +4,27 @@ AllMahjongs = ["東","東","東","東","西","西","西","西","南","南","南"
 
 class ClassAllPlayer:
 
-    def __init__(Self, Playerlist, BankerNum) -> None:
+    def __init__(Self) -> None:
+        ''' 初始化 '''
+        pass
 
-        Self.PlayerList = Playerlist
-        Self.players[BankerNum] = ClassPlayer(True)
-        Self.Player1 = ClassPlayer(False)
-        Self.Player2 = ClassPlayer(False)
-        Self.Player3 = ClassPlayer(False)
-
-    def InitCards(Self):
+    def InitPlayersCards(Self):
+        ''' 初始化卡牌 '''
         tempCards = AllMahjongs
         tempCards = Self.Banker.GetRandomCardsAndDelete()
+
+    def SetPlayerList(Self, Playerlist):
+        ''' 設定玩家清單 '''
+        Self.PlayerList = Playerlist
 
     def SetUpPlayer(Self):
         
         pass
-
+    
     def ReplaceFlowerCard():
+        ''' 補牌動作 '''
+        pass
+
+    def SetWinds():
+        ''' 紀錄幾局 '''
         pass
