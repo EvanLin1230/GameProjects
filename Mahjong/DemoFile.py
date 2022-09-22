@@ -1,7 +1,8 @@
 # 下面那串可以讓我們成功輸出中文字
 # coding: utf-8
+from gc import garbage
 import random
-from Class.ClassAllPlayer import ClassAllPlayer
+from Class.GameManager import GameManager
 # 全域變數
 AllMahjongs = ["東","東","東","東","西","西","西","西","南","南","南","南","北","北","北","北","中","中","中","中","發","發","發","發","白","白","白","白","一筒","一筒","一筒","一筒","二筒","二筒","二筒","二筒","三筒","三筒","三筒","三筒","四筒","四筒","四筒","四筒","五筒","五筒","五筒","五筒","六筒","六筒","六筒","六筒","七筒","七筒","七筒","七筒","八筒","八筒","八筒","八筒","九筒","九筒","九筒","九筒","一萬","一萬","一萬","一萬","二萬","二萬","二萬","二萬","三萬","三萬","三萬","三萬","四萬","四萬","四萬","四萬","五萬","五萬","五萬","五萬","六萬","六萬","六萬","六萬","七萬","七萬","七萬","七萬","八萬","八萬","八萬","八萬","九萬","九萬","九萬","九萬","一條","一條","一條","一條","二條","二條","二條","二條","三條","三條","三條","三條","四條","四條","四條","四條","五條","五條","五條","五條","六條","六條","六條","六條","七條","七條","七條","七條","八條","八條","八條","八條","九條","九條","九條","九條","春","夏","秋","冬","梅","蘭","竹","菊"]
 FlowerMahjongs = ["春","夏","秋","冬","梅","蘭","竹","菊"]
@@ -23,9 +24,9 @@ def initGame():
     lastCards = listToString(SortCards(tempMahjongs))
     print("===========================================")
     print("你的牌: "+ sYourCard)
-    print("player1的牌: "+ sPlayer1Card)
-    print("player2的牌: "+ sPlayer2Card)
-    print("player3的牌: "+ sPlayer3Card)
+    print("player1的牌: " + sPlayer1Card)
+    print("player2的牌: " + sPlayer2Card)
+    print("player3的牌: " + sPlayer3Card)
     print("剩餘所有牌: " + lastCards)
     print("===========================================")
     print("準備替換花牌...")
@@ -96,21 +97,32 @@ def ReplaceFlowerCards(MahjongsList, LastMahjongs):
         return LastMahjongs, MahjongsList
 
 def initGame2():
+
+    # 遊戲開始
+    GM = GameManager()
+
     # 初始化玩家清單
+    print("請依序輸入四位玩家姓名：")
     InputListPlayer = InputPlayersName()
+
     # 決定由誰當今天的第一個玩家，也就是東風東局
-    DiceResult = ThrowDice()
-    num = DiceResult%4
-    ListPlayer = DefSeqPlayerlist(InputListPlayer,num)
-    print("第一個玩家為：{}".format(ListPlayer[0]))
+    DiceNum = ThrowDice()
+    print("骰子數為:{}".format(DiceNum))
+    DiceNumMod4 = DiceNum%4
 
-    # 先設定一開始以玩家開始算
-    num = ThrowDice()
-    print("莊家骰到的點數為：{}" .format(num))
-    player = ["Evan","Sammi","Amy","Dex"]
-    print("換{}做莊家".format(player[num%4]))
+    # 放進去AllPlayer進行重新排列
+    GM.SetSeqPlayerlist(InputListPlayer,DiceNumMod4) # ListPlayer 將會作為之後16局遊戲的順序
+    print("所有玩家順序為：{}".format(GM.PlayerList))
+    print("第一個玩家為：{}".format(GM.PlayerList[0])) # ListPlayer[0] 為第一場莊家
 
-    #AllPlayer = ClassAllPlayer()
+    GM.InitPlayers()
+
+    # 以第一位玩家開始擲骰子並決定場風
+    DiceResultDesideEastWind = ThrowDice()
+    print("莊家骰到的點數為:{}" .format(DiceResultDesideEastWind))
+
+    # 遊戲開始
+    AllPlayer = GameManager()
     #print(AllPlayer.Banker.cards)
 
 def ThrowDice():
@@ -122,20 +134,9 @@ def InputPlayersName():
     ''' 回傳List '''
     num = 4
     playerList = []
-    print("請依序輸入四位玩家姓名：")
     for i in range(num):
-        playerList.append(input("玩家{}：".format(i+1)))
+        playerList.append(input("玩家{}:".format(i+1)))
     return playerList
-
-def DefSeqPlayerlist(playerList, num):
-    ''' 在決定東風東局的玩家後，重新定義正確順序的List； 回傳List '''
-    if num == 1:
-        return playerList
-    tempPlayerlist = playerList[num-1:]
-    playerList = playerList[0:num-1]
-    for x in playerList:
-        tempPlayerlist.append(x)
-    return tempPlayerlist
 
 initGame2()
 
